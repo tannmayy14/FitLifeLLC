@@ -1,0 +1,14 @@
+/* Adjust the position of slider dots */
+.slick-dots {
+    bottom: 10px !important; /* Moves dots right below the image, closer */
+    position: absolute; /* Keeps them positioned relative to the image slider */
+  }
+  
+  .slick-dots li button:before {
+    color: white; /* Optional: change the color of the dots */
+  }
+  
+  .slick-dots li.slick-active button:before {
+    color: #00FFCC; /* Optional: active dot color */
+  }
+  

@@ -1,17 +1,4 @@
-// import './App.css'
-// import BackContainer from './LandingPage';
-// import  HomeNavbar  from './HomeNavbar';
-// function App() {
 
-//   return (
-//     <div>    
-//     <HomeNavbar />
-//       <BackContainer />
-//     </div>
-//   )
-// }
-
-// export default App
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 import BackContainer from './LandingPage';
@@ -22,6 +9,9 @@ import PersonalTrainer from './pages/PersonalTrainer';
 import Equipments from './pages/Equipments';
 import Pricing from './pages/Pricing';
 import AboutUs from './pages/AboutUs';
+import SignIn from './SignIn';  // Add this import
+import SignUp from './SignUp';
+
 
 function App() {
   return (
@@ -36,6 +26,8 @@ function App() {
           <Route path="/equipments" element={<Equipments />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
     </Router>

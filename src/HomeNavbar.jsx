@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,23 +7,64 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
+import '@fontsource/oswald'; 
 import AdbIcon from '@mui/icons-material/Adb';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { auth } from './firebaseConfig';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const pages = [
-    {name: 'Home',path:'/'},
-  { name: 'Exercise Plans', path: '/exercise-plans' },
-  { name: 'Customized Plans', path: '/customized-plans' },
-  { name: 'Personal Trainer', path: '/personal-trainer' },
-  { name: 'Equipments', path: '/equipments' },
-  { name: 'Pricing', path: '/pricing' },
-  { name: 'About Us', path: '/about-us' }
+    {name: 'Home', path:'/'},
+    { name: 'Exercise Plans', path: '/exercise-plans' },
+    { name: 'Customized Plans', path: '/customized-plans' },
+    { name: 'Personal Trainer', path: '/personal-trainer' },
+    { name: 'Equipments', path: '/equipments' },
+    { name: 'Pricing', path: '/pricing' },
+    { name: 'About Us', path: '/about-us' }
 ];
 
 function HomeNavbar() {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [user, setUser] = React.useState(null);
+    const navigate = useNavigate();
+    const open = Boolean(anchorEl);
+
+    React.useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+          setUser(currentUser);
+        });
+        return () => unsubscribe();
+      }, []);
+    
+      const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
+    
+      const handleSignOut = async () => {
+        try {
+          await signOut(auth);
+          handleClose();
+          navigate('/');
+        } catch (error) {
+          console.error('Error signing out: ', error);
+        }
+      };
+
   return (
     <AppBar position="static" sx={{backgroundColor:"#1C1C1C"}}>
       <Container maxWidth="lg">
-        <Toolbar disableGutters="true">
+        <Toolbar disableGutters>
           {/* Logo Section */}
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex'}, mr: 1 }} />
           <Typography
@@ -34,9 +75,9 @@ function HomeNavbar() {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'lato',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
+              fontFamily: 'Oswald',
+              fontWeight: 1000,
+              letterSpacing: '.5rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
@@ -57,9 +98,14 @@ function HomeNavbar() {
                     my: 2,
                     color: 'white',
                     display: 'block',
-                    fontFamily: 'roboto',
-                    fontWeight: 500,
-                    padding: '6px 8px',
+                    fontFamily: 'Oswald',
+                    fontWeight: 700,
+                    padding: '10px 10px',
+                    cursor: 'pointer',
+                    textTransform: 'uppercase',
+                    letterSpacing: '.1rem',
+                    transition: 'background-color.3s ease',
+                    '&:hover': { backgroundColor: '#252525' },
                   }}
                 >
                   {page.name}
@@ -70,9 +116,83 @@ function HomeNavbar() {
 
           {/* Profile Section */}
           <Box sx={{ flexGrow: 0 }}>
-            <IconButton sx={{ p: 0 }}>
-              <Avatar alt="Profile" src="/static/images/avatar/2.jpg" />
+            <IconButton 
+              onClick={handleClick}
+              sx={{ p: 0 }}
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+            >
+            <Avatar alt="Profile" src={user?.photoURL || "/static/images/avatar/2.jpg"} />
             </IconButton>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+            {/* {!user ? (
+                <>
+                  <MenuItem onClick={handleClose} component={Link} to="/signin">
+                    <ListItemIcon>
+                      <LoginIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Sign In</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose} component={Link} to="/signup">
+                    <ListItemIcon>
+                      <PersonAddIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Sign Up</ListItemText>
+                  </MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem onClick={handleClose} component={Link} to="/cart">
+                    <ListItemIcon>
+                      <ShoppingCartIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Cart</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={handleSignOut}>
+                    <ListItemIcon>
+                      <LogoutIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Logout</ListItemText>
+                  </MenuItem>
+                </>
+              )}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+}
+
+export default HomeNavbar; */}
+{user ? (
+                <>
+                  <MenuItem onClick={handleClose}>
+                    <Typography>Welcome, {user.displayName || user.email}</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleSignOut}>
+                    <ListItemIcon>
+                      <LogoutIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Sign Out</ListItemText>
+                  </MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem onClick={handleClose} component={Link} to="/signin">Sign In</MenuItem>
+                  <MenuItem onClick={handleClose} component={Link} to="/signup">Sign Up</MenuItem>
+                </>
+              )}
+            </Menu>
           </Box>
         </Toolbar>
       </Container>

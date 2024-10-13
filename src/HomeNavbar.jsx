@@ -1,28 +1,36 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Exercise Plans', 'Customized Plans','Personal Trainer','Equipments','Pricing', 'About Us'];
+const pages = [
+    {name: 'Home',path:'/'},
+  { name: 'Exercise Plans', path: '/exercise-plans' },
+  { name: 'Customized Plans', path: '/customized-plans' },
+  { name: 'Personal Trainer', path: '/personal-trainer' },
+  { name: 'Equipments', path: '/equipments' },
+  { name: 'Pricing', path: '/pricing' },
+  { name: 'About Us', path: '/about-us' }
+];
 
 function HomeNavbar() {
   return (
     <AppBar position="static" sx={{backgroundColor:"#1C1C1C"}}>
       <Container maxWidth="lg">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters="true">
           {/* Logo Section */}
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex'}, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -39,13 +47,24 @@ function HomeNavbar() {
           {/* Navigation Links */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                sx={{ my: 2, color: 'white', display: 'block',fontFamily: 'roboto', fontWeight:500}}
-                href={`#${page.toLowerCase()}`}
+              <Link
+                key={page.name}
+                to={page.path}
+                style={{ textDecoration: 'none' }}
               >
-                {page}
-              </Button>
+                <Typography
+                  sx={{
+                    my: 2,
+                    color: 'white',
+                    display: 'block',
+                    fontFamily: 'roboto',
+                    fontWeight: 500,
+                    padding: '6px 8px',
+                  }}
+                >
+                  {page.name}
+                </Typography>
+              </Link>
             ))}
           </Box>
 

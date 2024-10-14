@@ -66,7 +66,8 @@ function HomeNavbar() {
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           {/* Logo Section */}
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex'}, mr: 1 }} />
+          <img src="./src/assets/man running.gif" alt="Running Man" style={{ height: '60px', marginRight: '-0px' }} />
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex'}, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap
@@ -81,8 +82,7 @@ function HomeNavbar() {
               color: 'inherit',
               textDecoration: 'none',
             }}
-          >
-            LOGO
+          >FitLife
           </Typography>
 
           {/* Navigation Links */}

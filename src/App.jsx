@@ -11,6 +11,9 @@ import Pricing from './pages/Pricing';
 import AboutUs from './pages/AboutUs';
 import SignIn from './SignIn';  // Add this import
 import SignUp from './SignUp';
+import './global.css';
+
+
 
 
 function App() {

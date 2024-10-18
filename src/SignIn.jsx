@@ -1,88 +1,494 @@
 // import React, { useState } from 'react';
-// import { signInWithEmailAndPassword } from 'firebase/auth';
+// import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 // import { auth } from './firebaseConfig';
 // import { useNavigate } from 'react-router-dom';
+// import { Typography, TextField, Button, Box, Divider } from '@mui/material';
+// import { styled } from '@mui/system';
+// import GoogleIcon from '@mui/icons-material/Google';
+// import './SignIn.css';
+
+// const BackgroundContainer = styled(Box)({
+//   position: 'relative',
+//   width: '100vw',
+//   height: '100vh',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+//   backgroundColor:'#f0f0f0',
+//   '&::before': {
+//     content: '""',
+//     position: 'absolute',
+//     top: 0,
+//     left: 0,
+//     right: 0,
+//     bottom: 0,
+//     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+//     backgroundImage: './src/assets/signInBack.jpg',
+//     backgroundSize: 'cover',
+//     backgroundPosition: 'center',
+//     filter: 'blur(8px)',
+//     zIndex: -1,
+//   },
+// });
+
+// const StyledBox = styled(Box)(({ theme }) => ({
+//   maxWidth: '400px',
+//   width: '100%',
+//   padding: '2rem',
+//   backgroundColor: 'rgba(248, 249, 250, 0.9)',
+//   borderRadius: '8px',
+//   boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+// }));
+
+// const StyledButton = styled(Button)(({ theme }) => ({
+//   backgroundColor: '#FFBF00',
+//   color: 'black',
+//   '&:hover': {
+//     backgroundColor: '#1C1C1C',
+//   },
+// }));
 
 // function SignIn() {
 //   const [email, setEmail] = useState('');
 //   const [password, setPassword] = useState('');
+//   const [confirmPassword, setConfirmPassword] = useState('');
+//   const [error, setError] = useState('');
 //   const navigate = useNavigate();
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
+//     setError('');
+
+//     if (password !== confirmPassword) {
+//       setError("Passwords don't match");
+//       return;
+//     }
+
 //     try {
 //       await signInWithEmailAndPassword(auth, email, password);
+//       console.log('Sign in successful');
 //       navigate('/');
 //     } catch (error) {
-//       console.error('Error signing in: ', error);
+//       setError(error.message);
+//       console.error('Error signing in:', error);
+//     }
+//   };
+
+//   const handleGoogleSignIn = async () => {
+//     const provider = new GoogleAuthProvider();
+//     try {
+//       await signInWithPopup(auth, provider);
+//       console.log('Google sign in successful');
+//       navigate('/');
+//     } catch (error) {
+//       setError(error.message);
+//       console.error('Error signing in with Google:', error);
 //     }
 //   };
 
 //   return (
-//     <form onSubmit={handleSubmit}>
-//       <input
-//         type="email"
-//         value={email}
-//         onChange={(e) => setEmail(e.target.value)}
-//         placeholder="Email"
-//         required
-//       />
-//       <input
-//         type="password"
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//         placeholder="Password"
-//         required
-//       />
-//       <button type="submit">Sign In</button>
-//     </form>
+//     <BackgroundContainer>
+//       <StyledBox>
+//         <Typography variant="h4" color='Black' component="h2" align="center" gutterBottom>
+//           Sign In to FitLifeCo
+//         </Typography>
+//         <form onSubmit={handleSubmit}>
+//           <TextField
+//             label="Email"
+//             type="email"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//             fullWidth
+//             margin="normal"
+//             required
+//           />
+//           <TextField
+//             label="Password"
+//             type="password"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//             fullWidth
+//             margin="normal"
+//             required
+//           />
+//           <TextField
+//             label="Confirm Password"
+//             type="password"
+//             value={confirmPassword}
+//             onChange={(e) => setConfirmPassword(e.target.value)}
+//             fullWidth
+//             margin="normal"
+//             required
+//           />
+//           {error && (
+//             <Typography color="error" variant="body2" align="center" gutterBottom>
+//               {error}
+//             </Typography>
+//           )}
+//           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, mb: 2 }}>
+//             <StyledButton type="submit" variant="contained">
+//               Sign In
+//             </StyledButton>
+//           </Box>
+//         </form>
+//         <Divider sx={{ my: 2 }}>
+//           <Typography variant="body2" color="textSecondary">
+//             or
+//           </Typography>
+//         </Divider>
+//         <StyledButton
+//           onClick={handleGoogleSignIn}
+//           fullWidth
+//           variant="contained"
+//           startIcon={<GoogleIcon />}
+//         >
+//           Sign in with Google
+//         </StyledButton>
+//       </StyledBox>
+//     </BackgroundContainer>
 //   );
 // }
 
 // export default SignIn;
+
+
+// import React, { useState } from 'react';
+// import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+// import { auth } from './firebaseConfig';
+// import { useNavigate } from 'react-router-dom';
+// import { Typography, TextField, Button, Box, Divider } from '@mui/material';
+// import { styled } from '@mui/system';
+// import GoogleIcon from '@mui/icons-material/Google';
+// import './SignIn.css';
+
+// const BackgroundContainer = styled(Box)({
+//   position: 'relative',
+//   width: '100vw',
+//   height: '100vh',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+//   backgroundImage: 'url(./src/assets/signInBack.jpg)',
+//   backgroundSize: 'cover',
+//   backgroundPosition: 'center',
+//   '&::before': {
+//     content: '""',
+//     position: 'absolute',
+//     top: 0,
+//     left: 0,
+//     right: 0,
+//     bottom: 0,
+//     backgroundColor: 'rgba(0, 0, 0, 0.6)',
+//     zIndex: -1,
+//   },
+// });
+
+// const StyledBox = styled(Box)({
+//   maxWidth: '400px',
+//   width: '100%',
+//   padding: '2.5rem',
+//   backgroundColor: 'rgba(255, 255, 255, 0.9)',
+//   borderRadius: '12px',
+//   boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+//   animation: 'fadeIn 1s ease-in-out',
+// });
+
+// const StyledTextField = styled(TextField)({
+//   marginBottom: '1.5rem',
+//   '& .MuiOutlinedInput-root': {
+//     '& fieldset': {
+//       borderColor: '#ccc',
+//     },
+//     '&:hover fieldset': {
+//       borderColor: '#FFBF00',
+//     },
+//     '&.Mui-focused fieldset': {
+//       borderColor: '#FFBF00',
+//     },
+//   },
+// });
+
+// const StyledButton = styled(Button)({
+//   backgroundColor: '#FFBF00',
+//   color: '#1C1C1C',
+//   padding: '0.8rem',
+//   '&:hover': {
+//     backgroundColor: '#1C1C1C',
+//     color: '#FFBF00',
+//   },
+// });
+
+// function SignIn() {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [confirmPassword, setConfirmPassword] = useState('');
+//   const [error, setError] = useState('');
+//   const navigate = useNavigate();
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError('');
+
+//     if (password !== confirmPassword) {
+//       setError("Passwords don't match");
+//       return;
+//     }
+
+//     try {
+//       await signInWithEmailAndPassword(auth, email, password);
+//       navigate('/');
+//     } catch (error) {
+//       setError(error.message);
+//     }
+//   };
+
+//   const handleGoogleSignIn = async () => {
+//     const provider = new GoogleAuthProvider();
+//     try {
+//       await signInWithPopup(auth, provider);
+//       navigate('/');
+//     } catch (error) {
+//       setError(error.message);
+//     }
+//   };
+
+//   return (
+//     <BackgroundContainer>
+//       <StyledBox>
+//         <Typography variant="h4" component="h2" align="center" gutterBottom>
+//           Sign In to FitLifeCo
+//         </Typography>
+//         <form onSubmit={handleSubmit}>
+//           <StyledTextField
+//             label="Email"
+//             type="email"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//             fullWidth
+//             required
+//           />
+//           <StyledTextField
+//             label="Password"
+//             type="password"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//             fullWidth
+//             required
+//           />
+//           <StyledTextField
+//             label="Confirm Password"
+//             type="password"
+//             value={confirmPassword}
+//             onChange={(e) => setConfirmPassword(e.target.value)}
+//             fullWidth
+//             required
+//           />
+//           {error && (
+//             <Typography color="error" variant="body2" align="center" gutterBottom>
+//               {error}
+//             </Typography>
+//           )}
+//           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+//             <StyledButton type="submit" fullWidth>
+//               Sign In
+//             </StyledButton>
+//           </Box>
+//         </form>
+//         <Divider sx={{ my: 2 }}>
+//           <Typography variant="body2" color="textSecondary">
+//             or
+//           </Typography>
+//         </Divider>
+//         <StyledButton
+//           onClick={handleGoogleSignIn}
+//           fullWidth
+//           variant="contained"
+//           startIcon={<GoogleIcon />}
+//         >
+//           Sign in with Google
+//         </StyledButton>
+//       </StyledBox>
+//     </BackgroundContainer>
+//   );
+// }
+
+// export default SignIn;
+
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 import { useNavigate } from 'react-router-dom';
+import { Typography, TextField, Button, Box, Divider } from '@mui/material';
+import { styled } from '@mui/system';
+import GoogleIcon from '@mui/icons-material/Google';
+import './SignIn.css';
+
+const BackgroundContainer = styled(Box)({
+  position: 'relative',
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundImage: 'url(./src/assets/signInBack.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    zIndex: -1,
+  },
+});
+
+const StyledBox = styled(Box)({
+  maxWidth: '400px',
+  width: '100%',
+  padding: '2.5rem',
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  borderRadius: '12px',
+  boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+  animation: 'fadeIn 1.2s ease-in-out',
+});
+
+const StyledTextField = styled(TextField)({
+  marginBottom: '1.5rem',
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#ccc',
+    },
+    '&:hover fieldset': {
+      borderColor: '#FFBF00',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#FFBF00',
+    },
+  },
+});
+
+const StyledButton = styled(Button)({
+  backgroundColor: '#FFBF00',
+  color: '#1C1C1C',
+  padding: '0.8rem',
+  transition: 'transform 0.2s ease-in-out',
+  '&:hover': {
+    backgroundColor: '#1C1C1C',
+    color: '#FFBF00',
+    transform: 'scale(1.05)',
+  },
+});
+
+const StyledGoogleButton = styled(Button)({
+  backgroundColor: '#FFFFFF',
+  color: '#1C1C1C',
+  padding: '0.8rem',
+  transition: 'transform 0.2s ease-in-out',
+  '&:hover': {
+    backgroundColor: '#4285F4',
+    color: '#FFF',
+    transform: 'scale(1.05)',
+  },
+});
 
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log('Sign in successful');
       navigate('/');
     } catch (error) {
       setError(error.message);
-      console.error('Error signing in:', error);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      navigate('/');
+    } catch (error) {
+      setError(error.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit">Sign In</button>
-    </form>
+    <BackgroundContainer>
+      <StyledBox>
+        <Typography variant="h4" component="h2" align="center" gutterBottom>
+          Sign In to FitLifeCo
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <StyledTextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            required
+            className="fade-in"
+          />
+          <StyledTextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            required
+            className="fade-in"
+          />
+          <StyledTextField
+            label="Confirm Password"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            fullWidth
+            required
+            className="fade-in"
+          />
+          {error && (
+            <Typography color="error" variant="body2" align="center" gutterBottom>
+              {error}
+            </Typography>
+          )}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+            <StyledButton type="submit" fullWidth className="fade-in">
+              Sign In
+            </StyledButton>
+          </Box>
+        </form>
+        <Divider sx={{ my: 2 }}>
+          <Typography variant="body2" color="textSecondary">
+            or
+          </Typography>
+        </Divider>
+        <StyledGoogleButton
+          onClick={handleGoogleSignIn}
+          fullWidth
+          variant="contained"
+          startIcon={<GoogleIcon />}
+          className="fade-in"
+        >
+          Sign in with Google
+        </StyledGoogleButton>
+      </StyledBox>
+    </BackgroundContainer>
   );
 }
 

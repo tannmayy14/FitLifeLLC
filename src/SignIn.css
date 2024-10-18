@@ -1,0 +1,133 @@
+.sign-in-form {
+    position: relative;
+  }
+
+  .sign-in-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: rgba(13, 13, 13, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #E0E0E0;
+  }
+  
+  .sign-in-container h2 {
+    text-align: center;
+    color: #FFBF00;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+  
+  .sign-in-container h3 {
+    text-align: center;
+    color: #E0E0E0;
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #E0E0E0;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #383838;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #1C1C1C;
+    color: #E0E0E0;
+  }
+  
+  .error-message {
+    color: #FF4500;
+    margin-bottom: 1rem;
+  }
+  
+  .sign-in-button {
+    background-color: #FFBF00;
+    max-width: 100%;
+    align-items: center;
+    color: #0D0D0D;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 1rem;
+  }
+  
+  .sign-in-button:hover {
+    background-color: #1C1C1C;
+    color: #FFBF00;
+  }
+  
+  .google-sign-in-button {
+    background-color: #FFBF00;
+    color: #0D0D0D;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .google-sign-in-button:hover {
+    background-color: #1C1C1C;
+    color: #FFBF00;
+  }
+  
+  .google-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+  }
+  
+  .or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  
+  .or-divider::before, .or-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #383838;
+  }
+  
+  .or-divider span {
+    padding: 0 10px;
+    color: #E0E0E0;
+    font-size: 0.9rem;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in {
+    animation: fadeIn 1.2s ease-in-out;
+  }
+  

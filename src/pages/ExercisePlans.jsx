@@ -6,33 +6,39 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
+// import './ExercisePlans.css';
 
 // Example exercise data (You can replace these with your real exercise plans)
 const exercises = [
   {
     title: 'Cardio Blast',
     description: 'Boost your endurance with intense cardio workouts.',
-    image: '"C:\College\SEM 5\Mini Project\fitlife\src\Exercise plans images\Cardio.webp"', 
+    image: './Exercise plans images/Cardio.jpg', 
   },
   {
     title: 'Strength Training',
     description: 'Increase muscle mass and strength with weight lifting.',
-    image: 'https://via.placeholder.com/150', // Replace with real image
+    image: './Exercise plans images/strength training.jpeg', // Replace with real image
   },
   {
     title: 'Push Pull Legs',
     description: 'A balanced workout routine focusing on push, pull, and leg exercises.',
-    image: 'https://via.placeholder.com/150', // Replace with real image
+    image: './Exercise plans images/ppl.jpeg', // Replace with real image
   },
   {
     title: 'HIIT Workout',
     description: 'High-intensity interval training to burn fat quickly.',
-    image: 'https://via.placeholder.com/150', // Replace with real image
+    image: './Exercise plans images/hiit.jpeg', // Replace with real image
   },
   {
     title: 'Core Strengthening',
     description: 'Build core strength with targeted abdominal exercises.',
-    image: 'https://via.placeholder.com/150', // Replace with real image
+    image: './Exercise plans images/core strength.avif', // Replace with real image
+  },
+  {
+    title: 'Yoga Flexibility',
+    description: 'Improve flexibility and reduce stress with yoga routines.',
+    image: './Exercise plans images/yoga.jpeg', // New image for the additional card
   },
 ];
 

@@ -3,10 +3,10 @@ import { Container, Typography, Grid, Card, CardContent } from '@mui/material';
 
 function AboutUs() {
   const teamMembers = [
-    { name: 'John Doe', role: 'CEO' },
-    { name: 'Jane Smith', role: 'CTO' },
-    { name: 'Michael Brown', role: 'Lead Developer' },
-    { name: 'Emily Davis', role: 'Project Manager' },
+    { name: 'Tanmay Bhatkar', role: 'CEO' },
+    { name: 'Mazin Bangi', role: 'CTO' },
+    { name: 'Sahil Bangera', role: 'Lead Developer' },
+    { name: 'Shannen Anthony', role: 'Project Manager' },
   ];
 
   return (
@@ -36,8 +36,7 @@ function AboutUs() {
           About Us
         </Typography>
         <Typography variant="body1" align="center" sx={{ color: 'white', maxWidth: '800px', margin: '0 auto' }}>
-          We are a dynamic company focused on delivering high-quality products to our clients. Our mission is to innovate and constantly improve our processes to provide exceptional value to our customers.
-        </Typography>
+        At FitLife, we believe that fitness and wellness should be accessible, enjoyable, and achievable for everyone. Founded by fitness enthusiasts who understand the challenges of staying motivated and consistent, we designed FitLife to be a comprehensive companion for all fitness levels. Our platform offers personalized workout and diet plans, progress tracking, expert guidance, and a supportive community to help you reach your goals. Whether you're starting your fitness journey or looking to take your performance to the next level, FitLife is here to support you every step of the way, making health a sustainable part of your daily life.</Typography>
         <div style={{ marginTop: '40px' }}>
           <Typography
             variant="h4"

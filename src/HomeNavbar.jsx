@@ -25,9 +25,9 @@ import { db } from './firebaseConfig';
 const pages = [
     {name: 'Home', path:'/'},
     { name: 'Exercise Plans', path: '/exercise-plans' },
-    { name: 'Customized Plans', path: '/customized-plans' },
+    { name: 'Customized Diet Plans', path: '/customized-plans' },
     { name: 'Personal Trainer', path: '/personal-trainer' },
-    { name: 'Equipments', path: '/equipments' },
+    { name: 'Store', path: '/equipments' },
     { name: 'Pricing', path: '/pricing' },
     { name: 'About Us', path: '/about-us' }
 ];

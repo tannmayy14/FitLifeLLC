@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fetchExercisePlan } from '../exerciseApi';
+import { fetchExercisePlan } from '../api';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -16,12 +16,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 const exercises = [
-  { title: 'Cardio Blast', description: 'Boost your endurance', image: '/Exercise plans images/Cardio.png', videoLink: 'https://www.youtube.com/watch?v=uBVREI0eJPI' },
-  { title: 'Strength Training', description: 'Increase muscle mass and strength with weight lifting.', image: '/Exercise plans images/Strength Training.webp', videoLink: 'https://www.youtube.com/watch?v=lQOAidOej7E' },
-  { title: 'Push Pull Legs', description: 'A balanced workout routine focusing on push, pull, and leg exercises.', image: '/Exercise plans images/Push Pull Legs.webp', videoLink: 'https://www.youtube.com/watch?v=lQOAidOej7E' },
-  { title: 'HIIT Workout', description: 'High-intensity interval training to burn fat quickly.', image: '/Exercise plans images/HIIT.webp', videoLink: 'https://www.youtube.com/watch?v=J212vz33gU4' },
-  { title: 'Core Strengthening', description: 'Build core strength with targeted abdominal exercises.', image: '/Exercise plans images/Core Strengthening.webp', videoLink: 'https://www.youtube.com/watch?v=core_strengthening_video' },
-  { title: 'Yoga', description: 'Improve flexibility and reduce stress with yoga routines.', image: '/Exercise plans images/Yoga.webp', videoLink: 'https://www.youtube.com/watch?v=s2NQhpFGIOg' },
+  { title: 'Cardio Blast', description: 'Boost your endurance', image: './Exercise plans images/Cardio.jpg', videoLink: 'https://www.youtube.com/watch?v=uBVREI0eJPI' },
+  { title: 'Strength Training', description: 'Increase muscle mass and strength with weight lifting.', image: './Exercise plans images/strength training.jpeg', videoLink: 'https://www.youtube.com/watch?v=lQOAidOej7E' },
+  { title: 'Push Pull Legs', description: 'A balanced workout routine focusing on push, pull, and leg exercises.', image: './Exercise plans images/ppl.jpeg', videoLink: 'https://www.youtube.com/watch?v=lQOAidOej7E' },
+  { title: 'HIIT Workout', description: 'High-intensity interval training to burn fat quickly.', image: './Exercise plans images/hiit.jpeg', videoLink: 'https://www.youtube.com/watch?v=J212vz33gU4' },
+  { title: 'Core Strengthening', description: 'Build core strength with targeted abdominal exercises.', image: './Exercise plans images/core strength.avif', videoLink: 'https://www.youtube.com/watch?v=core_strengthening_video' },
+  { title: 'Yoga', description: 'Improve flexibility and reduce stress with yoga routines.', image: './Exercise plans images/yoga.jpeg', videoLink: 'https://www.youtube.com/watch?v=s2NQhpFGIOg' },
 ];
 
 function ExercisePlans() {

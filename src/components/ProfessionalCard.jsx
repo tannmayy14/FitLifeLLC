@@ -86,7 +86,6 @@
 
     return (
         <>
-        <ToastContainer />
         <Card sx={{ maxWidth: 345 }}>
         <CardHeader
             title={
@@ -193,6 +192,7 @@
             </Button>
             </DialogActions>
         </Dialog>
+        <ToastContainer />
         </Card>
         </>
     );

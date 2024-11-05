@@ -24,6 +24,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CartSuccess from './pages/cartSuccess.jsx';
 
 
 const LoadingSpinner = () => (
@@ -115,6 +116,7 @@ return (
       <Route path="/signup" element={<SignUp />} />
       <Route path="/payment-success" element={<PaymentSuccess />} />
       <Route path="/our-services" element={<OurServices />}/>
+      <Route path="/cart-success" element={<CartSuccess />} />
 
     </Routes>
     <Footer />
@@ -122,15 +124,7 @@ return (
   <ToastContainer
   position="top-right"
   autoClose={5000}
-  hideProgressBar={false}
-  newestOnTop={false}
-  closeOnClick
-  rtl={false}
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  theme="colored"
-/>
+  hideProgressBar={false}/>
 </Router>
 );
 }

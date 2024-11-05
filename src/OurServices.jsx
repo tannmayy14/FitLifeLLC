@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import './OurServices.css';
+// import './OurServices.css';
 
 export default function OurServices() {
   return (

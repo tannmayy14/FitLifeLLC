@@ -14,6 +14,7 @@ import SignIn from './SignIn';  // Add this import
 import SignUp from './SignUp';
 import './global.css';
 import Footer from './Footer'; // Add this import
+import OurServices from './ourServices';
 import { PremiumRoute, AuthRoute } from './ProtectedRoute.jsx';
 import { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -113,6 +114,8 @@ return (
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/payment-success" element={<PaymentSuccess />} />
+      <Route path="/our-services" element={<OurServices />}/>
+
     </Routes>
     <Footer />
   </div>

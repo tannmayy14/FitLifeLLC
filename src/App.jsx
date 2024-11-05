@@ -11,10 +11,8 @@ import Pricing from './pages/Pricing';
 import AboutUs from './pages/AboutUs';
 import SignIn from './SignIn';  // Add this import
 import SignUp from './SignUp';
-import './global.css';
-import Footer from './Footer'; // Add this import
-
-
+import Footer from './footer';
+import OurServices from './ourServices';
 
 
 function App() {
@@ -32,6 +30,7 @@ function App() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/our-services" element={<OurServices />}/>
         </Routes>
         <Footer />
       </div>

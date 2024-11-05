@@ -189,7 +189,14 @@ function SignUp() {
         height: parseInt(height), // Convert to number
         weight: parseInt(weight), // Convert to number
         medicalHistory,
-        photoURL
+        photoURL,
+        
+        subscriptionStatus: 'free', // 'free' or 'premium'
+        subscriptionStart: null,    // Date when subscription started
+        subscriptionEnd: null,      // Date when subscription will end
+        paymentId: null,           // Razorpay payment ID
+        lastPaymentDate: null,     // Date of last payment
+        subscriptionAmount: 0,     // Amount paid for subscription
       });
 
       toast.success('Sign up successful!', { position: 'top-right', autoClos: 3000, });

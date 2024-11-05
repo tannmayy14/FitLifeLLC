@@ -20,31 +20,31 @@ const exercises = [
   {
     title: 'Cardio Blast',
     description: 'Boost your endurance', 
-    image: '/Exercise plans images/Cardio.png' 
+    image: './Exercise plans images/Cardio.jpg' 
   },
   { 
     title: 'Strength Training', 
     description: 'Increase muscle mass and strength with weight lifting.', 
-    image: '/Exercise plans images/Strength Training.webp' },
+    image: './Exercise plans images/strength training.jpeg' },
   {
     title: 'Push Pull Legs',
     description: 'A balanced workout routine focusing on push, pull, and leg exercises.',
-    image: 'public/Exercise plans images/Push Pull Legs.webp', // Replace with real image
+    image: './Exercise plans images/ppl.jpeg', // Replace with real image
   },
   {
     title: 'HIIT Workout',
     description: 'High-intensity interval training to burn fat quickly.',
-    image: 'public/Exercise plans images/HIIT.webp', // Replace with real image
+    image: './Exercise plans images/hiit.jpeg', // Replace with real image
   },
   {
     title: 'Core Strengthening',
     description: 'Build core strength with targeted abdominal exercises.',
-    image: 'public/Exercise plans images/Core Strengthening.webp', // Replace with real image
+    image: './Exercise plans images/core strength.avif', // Replace with real image
   },
   {
     title: 'Yoga',
     description: 'Improve flexibility and reduce stress with yoga routines.',
-    image: 'public/Exercise plans images/Yoga.webp', // New image for the additional card
+    image: './Exercise plans images/yoga.jpeg', // New image for the additional card
   },
 ];
 

@@ -1,107 +1,637 @@
-// src/PaywallPage.jsx
-import React from "react";
-import styled from "styled-components";
-import { motion } from "framer-motion";
+// // src/pages/CustomizedPlans.jsx
+// import React, { useState, useEffect, useMemo } from 'react';
+// import { collection, query, where, getDocs } from 'firebase/firestore';
+// import { db } from '../firebaseConfig';
+// import ProfessionalCard from '../components/ProfessionalCard';
+// import { Search, SlidersHorizontal } from 'lucide-react';
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
+// import {
+//   Sheet,
+//   SheetContent,
+//   SheetHeader,
+//   SheetTitle,
+//   SheetTrigger,
+// } from "@/components/ui/sheet";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Checkbox } from "@/components/ui/checkbox";
 
-// Styled Components
-const PageWrapper = styled.div`
-  background-color: #0d0d0d;
-  color: #e0e0e0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-  text-align: center;
-`;
+// const CustomizedPlans = () => {
+//   // State for the original data and UI controls
+//   const [dieticians, setDieticians] = useState([]);
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState(null);
+  
+//   // Filter and search states
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+//   const [selectedDays, setSelectedDays] = useState([]);
+//   const [sortBy, setSortBy] = useState('name');
+//   const [sortOrder, setSortOrder] = useState('asc');
 
-const Heading = styled(motion.h1)`
-  font-family: 'Oswald', sans-serif;
-  color: #ffffff;
-  font-size: 4rem;
-  margin: 0;
-  letter-spacing: 0.1rem;
-`;
+//   // Derived state for all available specialties
+//   const [allSpecialties, setAllSpecialties] = useState([]);
+  
+//   useEffect(() => {
+//     const fetchDieticians = async () => {
+//       try {
+//         const dieticiansQuery = query(
+//           collection(db, 'professionals'),
+//           where('type', '==', 'dietician')
+//         );
+        
+//         const querySnapshot = await getDocs(dieticiansQuery);
+//         const dieticiansData = querySnapshot.docs.map(doc => ({
+//           id: doc.id,
+//           ...doc.data()
+//         }));
+        
+//         // Extract all unique specialties
+//         const specialties = new Set();
+//         dieticiansData.forEach(dietician => {
+//           dietician.specialties?.forEach(specialty => specialties.add(specialty));
+//         });
+//         setAllSpecialties(Array.from(specialties));
+        
+//         setDieticians(dieticiansData);
+//       } catch (err) {
+//         console.error('Error fetching dieticians:', err);
+//         setError('Failed to load dieticians. Please try again later.');
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
 
-const SubHeading = styled(motion.h2)`
-  font-family: 'Bebas Neue', sans-serif;
-  color: #ff4500;
-  font-size: 2rem;
-  margin-top: 1rem;
-`;
+//     fetchDieticians();
+//   }, []);
 
-const AccentText = styled(motion.p)`
-  font-family: 'Roboto', sans-serif;
-  color: #ffbf00;
-  font-size: 1.25rem;
-  margin-top: 1rem;
-`;
+//   // Filter and sort logic
+//   const filteredDieticians = useMemo(() => {
+//     return dieticians
+//       .filter(dietician => {
+//         // Search filter
+//         const searchMatch = searchQuery === '' || 
+//           dietician.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+//           dietician.bio.toLowerCase().includes(searchQuery.toLowerCase());
 
-const Button = styled(motion.button)`
-  font-family: 'Poppins', sans-serif;
-  background-color: #ff4500;
-  color: #0d0d0d;
-  border: none;
-  padding: 1rem 2rem;
-  margin-top: 2rem;
-  font-size: 1.25rem;
-  cursor: pointer;
-  border-radius: 5px;
-  &:hover {
-    background-color: #ffbf00;
-  }
-`;
+//         // Specialties filter
+//         const specialtiesMatch = selectedSpecialties.length === 0 || 
+//           selectedSpecialties.every(specialty => 
+//             dietician.specialties?.includes(specialty)
+//           );
 
-// Animation Variants
-const headingVariant = {
-  hidden: { opacity: 0, y: -50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-};
+//         // Days availability filter
+//         const daysMatch = selectedDays.length === 0 ||
+//           selectedDays.some(day => 
+//             Object.keys(dietician.availability || {}).includes(day.toLowerCase())
+//           );
 
-const subHeadingVariant = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
-};
+//         return searchMatch && specialtiesMatch && daysMatch;
+//       })
+//       .sort((a, b) => {
+//         switch (sortBy) {
+//           case 'name':
+//             return sortOrder === 'asc' 
+//               ? a.name.localeCompare(b.name)
+//               : b.name.localeCompare(a.name);
+//           case 'hourlyRate':
+//             return sortOrder === 'asc'
+//               ? a.hourlyRate - b.hourlyRate
+//               : b.hourlyRate - a.hourlyRate;
+//           case 'experience':
+//             return sortOrder === 'asc'
+//               ? a.yearsExperience - b.yearsExperience
+//               : b.yearsExperience - a.yearsExperience;
+//           default:
+//             return 0;
+//         }
+//       });
+//   }, [dieticians, searchQuery, selectedSpecialties, selectedDays, sortBy, sortOrder]);
 
-const buttonVariant = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut" } },
-};
+//   const daysOfWeek = [
+//     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+//   ];
 
-// Paywall Page Component
+//   if (isLoading) {
+//     return (
+//       <div className="flex items-center justify-center min-h-screen">
+//         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
+//       </div>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <div className="flex items-center justify-center min-h-screen">
+//         <div className="text-red-500 text-center">
+//           <p>{error}</p>
+//           <Button 
+//             onClick={() => window.location.reload()}
+//             className="mt-4"
+//           >
+//             Retry
+//           </Button>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="container mx-auto px-4 py-8">
+//       <h1 className="text-3xl font-bold mb-8">Customized Diet Plans</h1>
+      
+//       {/* Search and Filter Controls */}
+//       <div className="mb-6 space-y-4">
+//         <div className="flex gap-4 items-center">
+//           <div className="flex-1 relative">
+//             <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+//             <Input
+//               placeholder="Search dieticians..."
+//               value={searchQuery}
+//               onChange={(e) => setSearchQuery(e.target.value)}
+//               className="pl-10"
+//             />
+//           </div>
+          
+//           <Select value={sortBy} onValueChange={setSortBy}>
+//             <SelectTrigger className="w-[180px]">
+//               <SelectValue placeholder="Sort by..." />
+//             </SelectTrigger>
+//             <SelectContent>
+//               <SelectItem value="name">Name</SelectItem>
+//               <SelectItem value="hourlyRate">Hourly Rate</SelectItem>
+//               <SelectItem value="experience">Experience</SelectItem>
+//             </SelectContent>
+//           </Select>
+          
+//           <Select value={sortOrder} onValueChange={setSortOrder}>
+//             <SelectTrigger className="w-[180px]">
+//               <SelectValue placeholder="Sort order..." />
+//             </SelectTrigger>
+//             <SelectContent>
+//               <SelectItem value="asc">Ascending</SelectItem>
+//               <SelectItem value="desc">Descending</SelectItem>
+//             </SelectContent>
+//           </Select>
+
+//           <Sheet>
+//             <SheetTrigger asChild>
+//               <Button variant="outline" size="icon">
+//                 <SlidersHorizontal className="h-4 w-4" />
+//               </Button>
+//             </SheetTrigger>
+//             <SheetContent>
+//               <SheetHeader>
+//                 <SheetTitle>Filter Dieticians</SheetTitle>
+//               </SheetHeader>
+              
+//               <div className="py-4">
+//                 <h3 className="mb-2 font-medium">Specialties</h3>
+//                 <div className="space-y-2">
+//                   {allSpecialties.map(specialty => (
+//                     <div key={specialty} className="flex items-center space-x-2">
+//                       <Checkbox
+//                         id={specialty}
+//                         checked={selectedSpecialties.includes(specialty)}
+//                         onCheckedChange={(checked) => {
+//                           setSelectedSpecialties(prev => 
+//                             checked 
+//                               ? [...prev, specialty]
+//                               : prev.filter(s => s !== specialty)
+//                           );
+//                         }}
+//                       />
+//                       <label htmlFor={specialty}>{specialty}</label>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+
+//               <div className="py-4">
+//                 <h3 className="mb-2 font-medium">Available Days</h3>
+//                 <div className="space-y-2">
+//                   {daysOfWeek.map(day => (
+//                     <div key={day} className="flex items-center space-x-2">
+//                       <Checkbox
+//                         id={day}
+//                         checked={selectedDays.includes(day)}
+//                         onCheckedChange={(checked) => {
+//                           setSelectedDays(prev => 
+//                             checked 
+//                               ? [...prev, day]
+//                               : prev.filter(d => d !== day)
+//                           );
+//                         }}
+//                       />
+//                       <label htmlFor={day}>{day}</label>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+
+//               <Button 
+//                 onClick={() => {
+//                   setSelectedSpecialties([]);
+//                   setSelectedDays([]);
+//                 }}
+//                 variant="outline"
+//                 className="mt-4"
+//               >
+//                 Clear Filters
+//               </Button>
+//             </SheetContent>
+//           </Sheet>
+//         </div>
+
+//         {/* Active filters display */}
+//         {(selectedSpecialties.length > 0 || selectedDays.length > 0) && (
+//           <div className="flex flex-wrap gap-2">
+//             {selectedSpecialties.map(specialty => (
+//               <span
+//                 key={specialty}
+//                 className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center gap-1"
+//               >
+//                 {specialty}
+//                 <button
+//                   onClick={() => setSelectedSpecialties(prev => 
+//                     prev.filter(s => s !== specialty)
+//                   )}
+//                   className="hover:text-blue-600"
+//                 >
+//                   ×
+//                 </button>
+//               </span>
+//             ))}
+//             {selectedDays.map(day => (
+//               <span
+//                 key={day}
+//                 className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm flex items-center gap-1"
+//               >
+//                 {day}
+//                 <button
+//                   onClick={() => setSelectedDays(prev => 
+//                     prev.filter(d => d !== day)
+//                   )}
+//                   className="hover:text-green-600"
+//                 >
+//                   ×
+//                 </button>
+//               </span>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Results count */}
+//       <div className="mb-4 text-gray-600">
+//         Found {filteredDieticians.length} dieticians
+//       </div>
+
+//       {/* Dieticians grid */}
+//       {filteredDieticians.length === 0 ? (
+//         <div className="text-center text-gray-500 py-8">
+//           No dieticians found matching your criteria.
+//         </div>
+//       ) : (
+//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//           {filteredDieticians.map(dietician => (
+//             <ProfessionalCard 
+//               key={dietician.id} 
+//               professional={dietician}
+//             />
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default CustomizedPlans;
+import React, { useState, useEffect, useMemo } from 'react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import ProfessionalCard from '../components/ProfessionalCard';
+import {
+  Container,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Drawer,
+  IconButton,
+  Button,
+  Box,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Chip,
+  CircularProgress,
+  InputAdornment,
+  Grid
+} from '@mui/material';
+import { Search as SearchIcon, Tune as TuneIcon, Close as CloseIcon } from '@mui/icons-material';
+
 const CustomizedPlans = () => {
+  // State for the original data and UI controls
+  const [dieticians, setDieticians] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // Filter and search states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [sortBy, setSortBy] = useState('name');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+  // Derived state for all available specialties
+  const [allSpecialties, setAllSpecialties] = useState([]);
+  
+  const daysOfWeek = [
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+  ];
+
+  useEffect(() => {
+    const fetchDieticians = async () => {
+      try {
+        const dieticiansQuery = query(
+          collection(db, 'professionals'),
+          where('type', '==', 'dietician')
+        );
+        
+        const querySnapshot = await getDocs(dieticiansQuery);
+        const dieticiansData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        
+        // Extract all unique specialties
+        const specialties = new Set();
+        dieticiansData.forEach(dietician => {
+          dietician.specialties?.forEach(specialty => specialties.add(specialty));
+        });
+        setAllSpecialties(Array.from(specialties));
+        
+        setDieticians(dieticiansData);
+      } catch (err) {
+        console.error('Error fetching dieticians:', err);
+        setError('Failed to load dieticians. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDieticians();
+  }, []);
+
+  // Filter and sort logic
+  const filteredDieticians = useMemo(() => {
+    return dieticians
+      .filter(dietician => {
+        const searchMatch = searchQuery === '' || 
+          dietician.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          dietician.bio.toLowerCase().includes(searchQuery.toLowerCase());
+
+        const specialtiesMatch = selectedSpecialties.length === 0 || 
+          selectedSpecialties.every(specialty => 
+            dietician.specialties?.includes(specialty)
+          );
+
+        const daysMatch = selectedDays.length === 0 ||
+          selectedDays.some(day => 
+            Object.keys(dietician.availability || {}).includes(day.toLowerCase())
+          );
+
+        return searchMatch && specialtiesMatch && daysMatch;
+      })
+      .sort((a, b) => {
+        switch (sortBy) {
+          case 'name':
+            return sortOrder === 'asc' 
+              ? a.name.localeCompare(b.name)
+              : b.name.localeCompare(a.name);
+          case 'hourlyRate':
+            return sortOrder === 'asc'
+              ? a.hourlyRate - b.hourlyRate
+              : b.hourlyRate - a.hourlyRate;
+          case 'experience':
+            return sortOrder === 'asc'
+              ? a.yearsExperience - b.yearsExperience
+              : b.yearsExperience - a.yearsExperience;
+          default:
+            return 0;
+        }
+      });
+  }, [dieticians, searchQuery, selectedSpecialties, selectedDays, sortBy, sortOrder]);
+
+  if (isLoading) {
+    return (
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
+        <Box textAlign="center">
+          <Typography color="error">{error}</Typography>
+          <Button 
+            variant="contained" 
+            onClick={() => window.location.reload()}
+            sx={{ mt: 2 }}
+          >
+            Retry
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
+
   return (
-    <PageWrapper>
-      <Heading 
-        variants={headingVariant} 
-        initial="hidden" 
-        animate="visible"
+    <Container sx={{ py: 4 }}>
+      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
+        Customized Diet Plans
+      </Typography>
+      
+      {/* Search and Filter Controls */}
+      <Box sx={{ mb: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+          <TextField
+            fullWidth
+            placeholder="Search dieticians..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          
+          <FormControl sx={{ minWidth: 180 }}>
+            <InputLabel>Sort by</InputLabel>
+            <Select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              label="Sort by"
+            >
+              <MenuItem value="name">Name</MenuItem>
+              <MenuItem value="hourlyRate">Consultation Fee</MenuItem>
+              <MenuItem value="experience">Experience</MenuItem>
+            </Select>
+          </FormControl>
+          
+          <FormControl sx={{ minWidth: 180 }}>
+            <InputLabel>Sort order</InputLabel>
+            <Select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              label="Sort order"
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
+
+          <IconButton onClick={() => setIsFilterDrawerOpen(true)}>
+            <TuneIcon />
+          </IconButton>
+        </Box>
+
+        {/* Active filters display */}
+        {(selectedSpecialties.length > 0 || selectedDays.length > 0) && (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            {selectedSpecialties.map(specialty => (
+              <Chip
+                key={specialty}
+                label={specialty}
+                onDelete={() => setSelectedSpecialties(prev => 
+                  prev.filter(s => s !== specialty)
+                )}
+                color="primary"
+                variant="outlined"
+              />
+            ))}
+            {selectedDays.map(day => (
+              <Chip
+                key={day}
+                label={day}
+                onDelete={() => setSelectedDays(prev => 
+                  prev.filter(d => d !== day)
+                )}
+                color="secondary"
+                variant="outlined"
+              />
+            ))}
+          </Box>
+        )}
+      </Box>
+
+      {/* Results count */}
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
+        Found {filteredDieticians.length} dieticians
+      </Typography>
+
+      {/* Dieticians grid */}
+      {filteredDieticians.length === 0 ? (
+        <Typography textAlign="center" color="text.secondary" sx={{ py: 4 }}>
+          No dieticians found matching your criteria.
+        </Typography>
+      ) : (
+        <Grid container spacing={3}>
+          {filteredDieticians.map(dietician => (
+            <Grid item xs={12} md={6} lg={4} key={dietician.id}>
+              <ProfessionalCard professional={dietician} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+
+      {/* Filter Drawer */}
+      <Drawer
+        anchor="right"
+        open={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
       >
-        This Content is Behind a Paywall
-      </Heading>
-      <SubHeading
-        variants={subHeadingVariant} 
-        initial="hidden" 
-        animate="visible"
-      >
-        Exclusive Content For Members Only
-      </SubHeading>
-      <AccentText
-        variants={buttonVariant} 
-        initial="hidden" 
-        animate="visible"
-      >
-        Subscribe Now To Unlock Premium Access
-      </AccentText>
-      <Button 
-        variants={buttonVariant} 
-        initial="hidden" 
-        animate="visible"
-        whileHover={{ scale: 1.1 }}
-      >
-        Unlock Now
-      </Button>
-    </PageWrapper>
+        <Box sx={{ width: 300, p: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h6">Filter Dieticians</Typography>
+            <IconButton onClick={() => setIsFilterDrawerOpen(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          
+          <Typography variant="subtitle1" sx={{ mb: 1 }}>Specialties</Typography>
+          <FormGroup sx={{ mb: 3 }}>
+            {allSpecialties.map(specialty => (
+              <FormControlLabel
+                key={specialty}
+                control={
+                  <Checkbox
+                    checked={selectedSpecialties.includes(specialty)}
+                    onChange={(e) => {
+                      setSelectedSpecialties(prev => 
+                        e.target.checked
+                          ? [...prev, specialty]
+                          : prev.filter(s => s !== specialty)
+                      );
+                    }}
+                  />
+                }
+                label={specialty}
+              />
+            ))}
+          </FormGroup>
+
+          <Typography variant="subtitle1" sx={{ mb: 1 }}>Available Days</Typography>
+          <FormGroup sx={{ mb: 3 }}>
+            {daysOfWeek.map(day => (
+              <FormControlLabel
+                key={day}
+                control={
+                  <Checkbox
+                    checked={selectedDays.includes(day)}
+                    onChange={(e) => {
+                      setSelectedDays(prev => 
+                        e.target.checked
+                          ? [...prev, day]
+                          : prev.filter(d => d !== day)
+                      );
+                    }}
+                  />
+                }
+                label={day}
+              />
+            ))}
+          </FormGroup>
+
+          <Button
+            variant="outlined"
+            fullWidth
+            onClick={() => {
+              setSelectedSpecialties([]);
+              setSelectedDays([]);
+            }}
+          >
+            Clear Filters
+          </Button>
+        </Box>
+      </Drawer>
+    </Container>
   );
 };
+
 export default CustomizedPlans;

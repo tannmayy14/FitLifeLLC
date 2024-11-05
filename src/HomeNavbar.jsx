@@ -19,6 +19,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './firebaseConfig';
 
 const pages = [
     {name: 'Home', path:'/'},
@@ -33,6 +35,7 @@ const pages = [
 function HomeNavbar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [user, setUser] = React.useState(null);
+    const [profileImageUrl, setProfileImageUrl] = React.useState("default-profile.jpg");
     const navigate = useNavigate();
     const open = Boolean(anchorEl);
 
@@ -42,6 +45,26 @@ function HomeNavbar() {
         });
         return () => unsubscribe();
       }, []);
+      
+      React.useEffect(() => {
+        const fetchProfileImageUrl = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                const userDocRef = doc(db, "users", user.uid);
+                try {
+                    const docSnap = await getDoc(userDocRef);
+                    if (docSnap.exists()) {
+                        const imageUrl = docSnap.data().photoURL;
+                        setProfileImageUrl(imageUrl || "default-profile.jpg");
+                    }
+                } catch (error) {
+                    console.error("Error fetching profile image from Firestore:", error);
+                    setProfileImageUrl("default-profile.jpg");
+                }
+            }
+        };
+        fetchProfileImageUrl();
+      }, [user]);
     
       const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -56,6 +79,7 @@ function HomeNavbar() {
           await signOut(auth);
           handleClose();
           navigate('/');
+          setProfileImageUrl("default-profile.jpg");
         } catch (error) {
           console.error('Error signing out: ', error);
         }
@@ -123,7 +147,7 @@ function HomeNavbar() {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-            <Avatar alt="Profile" src={user?.photoURL || "/static/images/avatar/2.jpg"} />
+            <Avatar alt="Profile" src={profileImageUrl || "/static/images/avatar/2.jpg"} />
             </IconButton>
             <Menu
               id="basic-menu"
